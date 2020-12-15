@@ -67,7 +67,7 @@
       color: "#9CD95F",
     });
     deathsLayer.setStyle({
-      color: "#6E77B0",
+      color: "#A63429",
     });
 
     // calling resizeCircles function
@@ -78,7 +78,7 @@
 
   function calcRadius(val) {
     const radius = Math.sqrt(val / Math.PI);
-    return radius * 0.5; // adjust .5 as a scale factor
+    return radius * 0.80; // adjust .8 as a scale factor
   }
 
   function resizeCircles(birthsLayer, deathsLayer, currentYear) {
@@ -118,7 +118,7 @@
       $(".births span:first-child").html(`(year ${currentYear})`);
       $(".deaths span:first-child").html(`(year ${currentYear})`);
       $(".births span:last-child").html(
-        Number(props[`G${currentYear}`]).toLocaleString()
+        Number(props[`B${currentYear}`]).toLocaleString()
       );
       $(".deaths span:last-child").html(
         Number(props[`D${currentYear}`]).toLocaleString()
@@ -129,7 +129,7 @@
         fillOpacity: 0.6,
       });
 
-      // empty arrays for boys and girls values
+      // empty arrays for births and deaths values
       const birthsValues = [],
         deathsValues = [];
 
@@ -261,7 +261,7 @@
         return year;
       };
 
-      // add the grade to the map
+      // add the year to the map
       yearControl.addTo(map);
     }
   } // sequenceUI ends here
