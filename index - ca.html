@@ -54,14 +54,14 @@
 
   <!-- ui slider -->
   <div id='slider' class='range w240 bg-white round-ml px12'>
-    <input type='range' min="1" , max="8" , value="1" , step="1" />
+    <input type='range' min="1" , max="10" , value="1" , step="1" />
   </div>
 
   <!-- build grade change to mimic slider changes-->
 
-  <div id='grade' class='pt6 px12 bg-white border border--gray-light round'>
+  <div id='year' class='pt6 px12 bg-white border border--gray-light round'>
     <p class='txt-bold'>Grade: <span>1</span></p>
-    <input type='range' min="1" , max="8" , value="1" , step="1" />
+    <input type='range' min="1" , max="10" , value="1" , step="1" />
   </div>
 
 
@@ -71,22 +71,21 @@
   <!-- ui info panel -->
   <div id='info' class='py6 px12 bg-white border border--gray-light round fixed w240'>
     <p>County: <span></span></p>
-    <p class='girls'>girls <span></span>: <span class='txt-l txt-bold'></span></p>
-    <p class='boys'>boys <span></span>: <span class='txt-l txt-bold'></span></p>
+    <p class='births'>births <span></span>: <span class='txt-l txt-bold'></span></p>
+    <p class='deaths'>deaths <span></span>: <span class='txt-l txt-bold'></span></p>
 
     <!-- Additional elements added here for this step! -->
     <hr class='txt-hr'>
-    <p class='my6'>Trend: grades 1 &ndash; 8</p>
-    <p class='mb6'><span class='girlspark'></span></p>
-    <p><span class='boyspark'></span></p>
+    <p class='my6'>Trend: year 2010 &ndash; 2019</p>
+    <p class='mb6'><span class='birthsspark'></span></p>
+    <p><span class='deathspark'></span></p>
 
   </div>
 
   <!-- build legend for enrollment-->
 
   <div id='legend' class='bg-white round px12 py12 relative'>
-    <h3 class='txt-bold mb12 w180'><span class="boys">Male</span> and <span class="girls">Female</span> Enrollment by
-      County</h3>
+    <h3 class='txt-bold mb12 w180'><span class="births">Male</span> and <span class="deaths">Female</span> Births and deaths</h3>
     <div class='legend-circles relative w180'>
       <div class="legend-large border border--gray-light absolute"></div>
       <div class="legend-small border border--gray-light absolute"></div>
