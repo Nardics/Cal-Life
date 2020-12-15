@@ -64,7 +64,7 @@
     // set styling for gender
 
     birthsLayer.setStyle({
-      color: "#D96D02",
+      color: "#9CD95F",
     });
     deathsLayer.setStyle({
       color: "#6E77B0",
@@ -84,13 +84,13 @@
   function resizeCircles(birthsLayer, deathsLayer, currentYear) {
     birthsLayer.eachLayer(function (layer) {
       const radius = calcRadius(
-        Number(layer.feature.properties["BIRTHS" + currentYear])
+        Number(layer.feature.properties["B" + currentYear])
       );
       layer.setRadius(radius);
     });
     deathsLayer.eachLayer(function (layer) {
       const radius = calcRadius(
-        Number(layer.feature.properties["DEATHS" + currentYear])
+        Number(layer.feature.properties["D" + currentYear])
       );
       layer.setRadius(radius);
     });
@@ -114,14 +114,14 @@
       const props = e.layer.feature.properties;
 
       // populate HTML elements with relevant info
-      $("#info span").html(props.NAME);
+      $("#info span").html(props.CITY);
       $(".births span:first-child").html(`(year ${currentYear})`);
       $(".deaths span:first-child").html(`(year ${currentYear})`);
       $(".births span:last-child").html(
         Number(props[`G${currentYear}`]).toLocaleString()
       );
       $(".deaths span:last-child").html(
-        Number(props[`DEATHS${currentGrade}`]).toLocaleString()
+        Number(props[`D${currentYear}`]).toLocaleString()
       );
 
       // raise opacity level as visual affordance
@@ -135,13 +135,13 @@
 
       // loop through the grade levels and push values into those arrays
       for (let i = 1; i <= 8; i++) {
-        birthsValues.push(props["BIRTHS" + i]);
-        deathsValues.push(props["DEATHS" + i]);
+        birthsValues.push(props["B" + i]);
+        deathsValues.push(props["D" + i]);
       }
 
       // Using jQuery to select elements and invoke .sparkline() method
 
-      $(".birthspark").sparkline(birthsValues, {
+      $(".birthsspark").sparkline(birthsValues, {
         width: "200px",
         height: "30px",
         lineColor: "#D96D02",
@@ -150,7 +150,7 @@
         lineWidth: 2,
       });
 
-      $(".deathspark").sparkline(deathsValues, {
+      $(".deathsspark").sparkline(deathsValues, {
         width: "200px",
         height: "30px",
         lineColor: "#6E77B0",
@@ -228,7 +228,7 @@
 
     labelControl.addTo(map);
 
-    $("#grade input[type=range]").on("input", function () {
+    $("#year input[type=range]").on("input", function () {
       // current value of slider is current grade level
       var currentYear = this.value;
       $("#year p span").html(currentYear)
@@ -271,7 +271,7 @@
   function drawLegend(data) {
     // create Leaflet control for the legend
     const legendControl = L.control({
-      position: "bottomright",
+      position: "topright",
     });
 
     // when the control is added to the map
@@ -297,11 +297,13 @@
     const dataValues = [];
 
     // loop through all features (i.e., the schools)
-    data.features.forEach(function (school) {
+    data.features.forEach(function (hospital) {
       // for each grade in a school
-      for (let grade in school.properties) {
+      for (let year in hospital.properties) {
+
+//console.log(hospital.properties); 
         // shorthand to each value
-        const value = school.properties[grade];
+        const value = hospital.properties[year];
         // if the value can be converted to a number
         // the + operator in front of a number returns a number
         if (+value) {
@@ -364,8 +366,8 @@
       .css("top", largeDiameter - smallDiameter - 8);
   }
 
-  function updateGrade(currentGrade) {
+  function updateYear(currentYear) {
     //select the slider's input and listen for change
-    $("#grade span").html(currentGrade);
+    $("#year span").html(currentYear);
   } // end updateGrade()
 })();
