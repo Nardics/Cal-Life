@@ -4,7 +4,7 @@
 }
 
 h1 {
-  color: orange;
+  color: #1F3D74;
 }
 /* display none for layout but be careful of license restrictions */
 .mapbox-logo,
@@ -31,12 +31,12 @@ hr.large {
   z-index: 1000;
 }
 
-.boys {
-  color: #6e77b0;
+.births {
+  color: #9DAECA;
 }
 
-.girls {
-  color: #d96d02;
+.deaths {
+  color:#1F3D74;
 }
 
 body {
