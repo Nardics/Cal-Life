@@ -1,0 +1,44 @@
+/* custom CSS rules */
+#map {
+  background: #448ee4;
+}
+
+h1 {
+  color: orange;
+}
+/* display none for layout but be careful of license restrictions */
+.mapbox-logo,
+.leaflet-control-attribution {
+  display: none;
+}
+
+.legend-large,
+.legend-small {
+  border-radius: 50%;
+}
+
+hr.small,
+hr.large {
+  width: 83px;
+  position: absolute;
+  top: -8px;
+  left: 55px;
+  border: 1px dashed #ccc; /* overwrite assembly.css rule */
+  margin-top: 8px; /* overwrite assembly.css rule */
+}
+
+#info {
+  z-index: 1000;
+}
+
+.boys {
+  color: #6e77b0;
+}
+
+.girls {
+  color: #d96d02;
+}
+
+body {
+  font-family: "Work Sans", sans-serif;
+} /* This overrides the Assembly.css for the body font rule
