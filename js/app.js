@@ -38,6 +38,9 @@
     });
 
   function drawMap(data) {
+
+    console.log(data);
+
     const options = {
       pointToLayer: function (feature, ll) {
         return L.circleMarker(ll, {
@@ -49,28 +52,28 @@
     };
 
     // create 2 separate layers from GeoJSON data
-    const girlsLayer = L.geoJson(data, options).addTo(map),
-      boysLayer = L.geoJson(data, options).addTo(map);
+    const birthsLayer = L.geoJson(data, options).addTo(map),
+      deathsLayer = L.geoJson(data, options).addTo(map);
 
     // fit the bounds of the map to one of the layers
-    map.fitBounds(girlsLayer.getBounds());
+    map.fitBounds(birthsLayer.getBounds());
 
     // adjust zoom level of map
     map.setZoom(map.getZoom() - 0.4);
 
     // set styling for gender
 
-    girlsLayer.setStyle({
+    birthsLayer.setStyle({
       color: "#D96D02",
     });
-    boysLayer.setStyle({
+    deathsLayer.setStyle({
       color: "#6E77B0",
     });
 
     // calling resizeCircles function
-    resizeCircles(girlsLayer, boysLayer, 1);
+    resizeCircles(birthsLayer, deathsLayer, 1);
 
-    sequenceUI(girlsLayer, boysLayer);
+    sequenceUI(birthsLayer, deathsLayer);
   } // end drawMap() here
 
   function calcRadius(val) {
@@ -78,32 +81,32 @@
     return radius * 0.5; // adjust .5 as a scale factor
   }
 
-  function resizeCircles(girlsLayer, boysLayer, currentGrade) {
-    girlsLayer.eachLayer(function (layer) {
+  function resizeCircles(birthsLayer, deathsLayer, currentYear) {
+    birthsLayer.eachLayer(function (layer) {
       const radius = calcRadius(
-        Number(layer.feature.properties["G" + currentGrade])
+        Number(layer.feature.properties["BIRTHS" + currentYear])
       );
       layer.setRadius(radius);
     });
-    boysLayer.eachLayer(function (layer) {
+    deathsLayer.eachLayer(function (layer) {
       const radius = calcRadius(
-        Number(layer.feature.properties["B" + currentGrade])
+        Number(layer.feature.properties["DEATHS" + currentYear])
       );
       layer.setRadius(radius);
     });
 
-    retrieveInfo(boysLayer, currentGrade);
+    retrieveInfo(deathsLayer, currentYear);
   } // end resizeCircles
 
   // retrieveInfo function is used to display the current grade being queried
 
-  function retrieveInfo(boysLayer, currentGrade) {
+  function retrieveInfo(deathsLayer, currentYear) {
     // select the element and reference with variable
     // and hide it from view initially
     const info = $("#info").hide();
 
     // since boysLayer is on top, use to detect mouseover events
-    boysLayer.on("mouseover", function (e) {
+    deathsLayer.on("mouseover", function (e) {
       // remove the none class to display and show
       info.show();
 
@@ -111,14 +114,14 @@
       const props = e.layer.feature.properties;
 
       // populate HTML elements with relevant info
-      $("#info span").html(props.COUNTY);
-      $(".girls span:first-child").html(`(grade ${currentGrade})`);
-      $(".boys span:first-child").html(`(grade ${currentGrade})`);
-      $(".girls span:last-child").html(
-        Number(props[`G${currentGrade}`]).toLocaleString()
+      $("#info span").html(props.NAME);
+      $(".births span:first-child").html(`(year ${currentYear})`);
+      $(".deaths span:first-child").html(`(year ${currentYear})`);
+      $(".births span:last-child").html(
+        Number(props[`G${currentYear}`]).toLocaleString()
       );
-      $(".boys span:last-child").html(
-        Number(props[`B${currentGrade}`]).toLocaleString()
+      $(".deaths span:last-child").html(
+        Number(props[`DEATHS${currentGrade}`]).toLocaleString()
       );
 
       // raise opacity level as visual affordance
@@ -127,18 +130,18 @@
       });
 
       // empty arrays for boys and girls values
-      const girlsValues = [],
-        boysValues = [];
+      const birthsValues = [],
+        deathsValues = [];
 
       // loop through the grade levels and push values into those arrays
       for (let i = 1; i <= 8; i++) {
-        girlsValues.push(props["G" + i]);
-        boysValues.push(props["B" + i]);
+        birthsValues.push(props["BIRTHS" + i]);
+        deathsValues.push(props["DEATHS" + i]);
       }
 
       // Using jQuery to select elements and invoke .sparkline() method
 
-      $(".girlspark").sparkline(girlsValues, {
+      $(".birthspark").sparkline(birthsValues, {
         width: "200px",
         height: "30px",
         lineColor: "#D96D02",
@@ -147,7 +150,7 @@
         lineWidth: 2,
       });
 
-      $(".boyspark").sparkline(boysValues, {
+      $(".deathspark").sparkline(deathsValues, {
         width: "200px",
         height: "30px",
         lineColor: "#6E77B0",
@@ -157,7 +160,7 @@
       });
     });
     // hide the info panel when mousing off layergroup and remove affordance opacity
-    boysLayer.on("mouseout", function (e) {
+    deathsLayer.on("mouseout", function (e) {
       // hide the info panel
       info.hide();
 
@@ -192,7 +195,7 @@
 
   // new function to facilitate comparison of parameters (boys and girls)
 
-  function sequenceUI(girlsLayer, boysLayer) {
+  function sequenceUI(birthsLayer, deathsLayer) {
     // sequenceUI function body
     // create Leaflet control for the slider
     const sliderControl = L.control({
@@ -215,7 +218,7 @@
     });
 
     labelControl.onAdd = function (map) {
-      const controls = L.DomUtil.get("grade");
+      const controls = L.DomUtil.get("year");
 
       L.DomEvent.disableScrollPropagation(controls);
       L.DomEvent.disableClickPropagation(controls);
@@ -227,39 +230,39 @@
 
     $("#grade input[type=range]").on("input", function () {
       // current value of slider is current grade level
-      var currentGrade = this.value;
-      $("#grade p span").html(currentGrade)
+      var currentYear = this.value;
+      $("#year p span").html(currentYear)
       // resize the circles with updated grade level
-      resizeCircles(girlsLayer, boysLayer, currentGrade);
+      resizeCircles(birthsLayer, deathsLayer, currentYear);
     });
 
     $("#slider input[type=range]").on("input", function () {
       // current value of slider is current grade level
-      var currentGrade = this.value;
+      var currentYear = this.value;
 
       // resize the circles with updated grade level
-      resizeCircles(girlsLayer, boysLayer, currentGrade);
+      resizeCircles(birthsLayer, deathsLayer, currentYear);
     });
 
     // create a new control to mimic the slider for the map
-    function updateGrade(girlsLayer, boysLayer, currentGrade) {
+    function updateYear(birthsLayer, deathsLayer, currentYear) {
       
       // create a leaflet control for the grades
-      const gradeControl = L.control({
+      const yearControl = L.control({
         position: "bottomleft",
       });
 
       // when the grades are added to the map
-      gradeControl.onAdd = function (map) {
-        const grade = L.DomUtil.get("div", "grade");
+      yearControl.onAdd = function (map) {
+        const year = L.DomUtil.get("div", "year");
         L.DomEvent.disableScrollPropagation(controls);
         L.DomEvent.disableClickPropagation(controls);
 
-        return grade;
+        return year;
       };
 
       // add the grade to the map
-      gradeControl.addTo(map);
+      yearControl.addTo(map);
     }
   } // sequenceUI ends here
 
