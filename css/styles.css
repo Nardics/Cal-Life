@@ -1,10 +1,10 @@
 /* custom CSS rules */
 #map {
-  background: #448ee4;
+  background: #687E8C;
 }
 
 h1 {
-  color: #1F3D74;
+  color:'#004A8B';
 }
 /* display none for layout but be careful of license restrictions */
 .mapbox-logo,
@@ -15,6 +15,9 @@ h1 {
 .legend-large,
 .legend-small {
   border-radius: 50%;
+  border-color:#182E59;
+  border-width: 1.5px;
+  
 }
 
 hr.small,
@@ -32,7 +35,7 @@ hr.large {
 }
 
 .births {
-  color: #9DAECA;
+  color: #BF6B7B;
 }
 
 .deaths {
@@ -40,5 +43,5 @@ hr.large {
 }
 
 body {
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Kadwa', serif;
 } /* This overrides the Assembly.css for the body font rule
