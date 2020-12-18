@@ -5,6 +5,7 @@
 
 h1 {
   color:'#004A8B';
+  font-size: 2em;
 }
 /* display none for layout but be careful of license restrictions */
 .mapbox-logo,
