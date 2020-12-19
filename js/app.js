@@ -115,8 +115,8 @@
 
       // populate HTML elements with relevant info
       $("#info span").html(props.CITY);
-      $(".births span:first-child").html(`(year ${currentYear})`);
-      $(".deaths span:first-child").html(`(year ${currentYear})`);
+      $(".births span:first-child").html(`(year ${+currentYear + 2009})`);
+      $(".deaths span:first-child").html(`(year ${+currentYear + 2009})`);
       $(".births span:last-child").html(
         Number(props[`B${currentYear}`]).toLocaleString()
       );
