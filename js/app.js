@@ -230,8 +230,8 @@
 
     $("#year input[type=range]").on("input", function () {
       // current value of slider is current grade level
-      var currentYear = this.value;
-      $("#year p span").html(currentYear)
+      var currentYear = this.value; // value is 1 to 10
+      $("#year p span").html(+currentYear + 2009 )
       // resize the circles with updated grade level
       resizeCircles(birthsLayer, deathsLayer, currentYear);
     });
