@@ -45,4 +45,8 @@ hr.large {
 
 body {
   font-family: 'Kadwa', serif;
-} /* This overrides the Assembly.css for the body font rule
+} /* This overrides the Assembly.css for the body font rule */
+
+#legend{
+  width: 350px
+}

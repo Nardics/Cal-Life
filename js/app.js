@@ -271,7 +271,7 @@
   function drawLegend(data) {
     // create Leaflet control for the legend
     const legendControl = L.control({
-      position: "topright",
+      position: "topright"
     });
 
     // when the control is added to the map
