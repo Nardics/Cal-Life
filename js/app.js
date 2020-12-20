@@ -1,12 +1,14 @@
 (function () {
   const map = L.map("map", {
     zoomSnap: 0.1,
-    center: [37.7783, -110.4179],
-    zoom: 7.409,
+    center: [37.7783, -110.5],
+    zoom: 8,
     minZoom: 6,
     maxZoom: 12,
     maxBounds: L.latLngBounds([16.0, -125.5], [45.5, -105.0]),
   });
+
+  
   const accessToken =
     "pk.eyJ1IjoibWFwbmFyZCIsImEiOiJja2I3dzU3d2YwOXV3Mnlta25mYWZwd2h1In0.DwLv1HMQTFGFP7fy_2ywLA";
   const yourName = "mapnard";
@@ -32,7 +34,7 @@
       console.log(e.error[0].message);
     });
   function drawMap(data) {
-    console.log(data);
+    // console.log(data);
     const options = {
       pointToLayer: function (feature, ll) {
         return L.circleMarker(ll, {
@@ -60,10 +62,12 @@
     resizeCircles(birthsLayer, deathsLayer, 1);
     sequenceUI(birthsLayer, deathsLayer);
   } // end drawMap() here
+
   function calcRadius(val) {
     const radius = Math.sqrt(val / Math.PI);
     return radius * 0.5; // adjust .5 as a scale factor
   }
+
   function resizeCircles(birthsLayer, deathsLayer, currentYear) {
     birthsLayer.eachLayer(function (layer) {
       const radius = calcRadius(
@@ -79,6 +83,7 @@
     });
     retrieveInfo(deathsLayer, currentYear);
   } // end resizeCircles
+
   // retrieveInfo function is used to display the current year being queried
   function retrieveInfo(deathsLayer, currentYear) {
     // select the element and reference with variable
@@ -90,9 +95,9 @@
       info.show();
       // access properties of target layer
       const props = e.layer.feature.properties;
-      
+
       // populate HTML elements with relevant info
-      $("#info span").html(`City of  ${props.CITY}`);
+      $("#info span").html(`City of  ${props.CITY}<br>${props.NAME}`);
       $(".births span:first-child").html(`(year ${+currentYear + 2009})`);
       $(".deaths span:first-child").html(`(year ${+currentYear + 2009})`);
       $(".births span:last-child").html(
@@ -267,7 +272,7 @@
       }
     });
     // verify your results!
-    console.log(dataValues);
+    //console.log(dataValues);
     // sort our array
     const sortedValues = dataValues.sort(function (a, b) {
       return b - a;
