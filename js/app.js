@@ -7,12 +7,10 @@
     maxZoom: 9,
     maxBounds: L.latLngBounds([16.0, -125.5], [45.5, -105.0])
   });
-
   const accessToken =
     "pk.eyJ1IjoibWFwbmFyZCIsImEiOiJja2I3dzU3d2YwOXV3Mnlta25mYWZwd2h1In0.DwLv1HMQTFGFP7fy_2ywLA";
   const yourName = "mapnard";
   const yourMap = "ckha1a34j34dc19n6k07lsdei";
-
   // request a mapbox raster tile layer and add to map
   L.tileLayer(
     `https://api.mapbox.com/styles/v1/${yourName}/${yourMap}/tiles/256/{z}/{x}/{y}?access_token=${accessToken}`,
@@ -22,25 +20,19 @@
       maxZoom: 18,
     }
   ).addTo(map);
-
   // call enrollment data
-
   omnivore
     .csv("data/ca_counties.csv")
     .on("ready", function (e) {
       drawMap(e.target.toGeoJSON());
       drawLegend(e.target.toGeoJSON()); // add this statement
-
       console.log(e.target);
     })
     .on("error", function (e) {
       console.log(e.error[0].message);
     });
-
   function drawMap(data) {
-
     console.log(data);
-
     const options = {
       pointToLayer: function (feature, ll) {
         return L.circleMarker(ll, {
@@ -50,37 +42,28 @@
         });
       },
     };
-
     // create 2 separate layers from GeoJSON data
     const birthsLayer = L.geoJson(data, options).addTo(map),
       deathsLayer = L.geoJson(data, options).addTo(map);
-
     // fit the bounds of the map to one of the layers
     map.fitBounds(birthsLayer.getBounds());
-
     // adjust zoom level of map
     map.setZoom(map.getZoom() - 0.4);
-
     // set styling for gender
-
     birthsLayer.setStyle({
-      color: "#9CD95F",
+      color: " #BF6B7B",
     });
     deathsLayer.setStyle({
-      color: "#A63429",
+      color: "#1F3D74",
     });
-
     // calling resizeCircles function
     resizeCircles(birthsLayer, deathsLayer, 1);
-
     sequenceUI(birthsLayer, deathsLayer);
   } // end drawMap() here
-
   function calcRadius(val) {
     const radius = Math.sqrt(val / Math.PI);
     return radius * 0.80; // adjust .8 as a scale factor
   }
-
   function resizeCircles(birthsLayer, deathsLayer, currentYear) {
     birthsLayer.eachLayer(function (layer) {
       const radius = calcRadius(
@@ -94,25 +77,19 @@
       );
       layer.setRadius(radius);
     });
-
     retrieveInfo(deathsLayer, currentYear);
   } // end resizeCircles
-
   // retrieveInfo function is used to display the current grade being queried
-
   function retrieveInfo(deathsLayer, currentYear) {
     // select the element and reference with variable
     // and hide it from view initially
     const info = $("#info").hide();
-
     // since boysLayer is on top, use to detect mouseover events
     deathsLayer.on("mouseover", function (e) {
       // remove the none class to display and show
       info.show();
-
       // access properties of target layer
       const props = e.layer.feature.properties;
-
       // populate HTML elements with relevant info
       $("#info span").html(props.CITY);
       $(".births span:first-child").html(`(year ${currentYear})`);
@@ -123,38 +100,32 @@
       $(".deaths span:last-child").html(
         Number(props[`D${currentYear}`]).toLocaleString()
       );
-
       // raise opacity level as visual affordance
       e.layer.setStyle({
         fillOpacity: 0.6,
       });
-
       // empty arrays for births and deaths values
       const birthsValues = [],
         deathsValues = [];
-
       // loop through the grade levels and push values into those arrays
       for (let i = 1; i <= 8; i++) {
         birthsValues.push(props["B" + i]);
         deathsValues.push(props["D" + i]);
       }
-
       // Using jQuery to select elements and invoke .sparkline() method
-
       $(".birthsspark").sparkline(birthsValues, {
         width: "200px",
         height: "30px",
         lineColor: "#D96D02",
-        fillColor: "#d98939 ",
+        fillColor: " #BF6B7B ",
         spotRadius: 0,
         lineWidth: 2,
       });
-
       $(".deathsspark").sparkline(deathsValues, {
         width: "200px",
         height: "30px",
         lineColor: "#6E77B0",
-        fillColor: "#878db0",
+        fillColor: "#1F3D74",
         spotRadius: 0,
         lineWidth: 2,
       });
@@ -163,13 +134,11 @@
     deathsLayer.on("mouseout", function (e) {
       // hide the info panel
       info.hide();
-
       // reset the layer style
       e.layer.setStyle({
         fillOpacity: 0,
       });
     });
-
     // when the mouse moves on the document
     $(document).mousemove(function (e) {
       // first offset from the mouse position of the info window
@@ -177,7 +146,6 @@
         left: e.pageX + 6,
         top: e.pageY - info.height() - 25,
       });
-
       // if it crashes into the top, flip it lower right
       if (info.offset().top < 4) {
         info.css({
@@ -192,46 +160,35 @@
       }
     });
   }
-
   // new function to facilitate comparison of parameters (boys and girls)
-
   function sequenceUI(birthsLayer, deathsLayer) {
     // sequenceUI function body
     // create Leaflet control for the slider
     const sliderControl = L.control({
       position: "bottomleft",
     });
-
     sliderControl.onAdd = function (map) {
       const controls = L.DomUtil.get("slider");
-
       L.DomEvent.disableScrollPropagation(controls);
       L.DomEvent.disableClickPropagation(controls);
-
       return controls;
     };
-
  //   sliderControl.addTo(map);
-
     const labelControl = L.control({
       position: "bottomleft",
     });
-
     labelControl.onAdd = function (map) {
       const controls = L.DomUtil.get("year");
-
       L.DomEvent.disableScrollPropagation(controls);
       L.DomEvent.disableClickPropagation(controls);
-
       return controls;
     };
-
     labelControl.addTo(map);
 
     $("#year input[type=range]").on("input", function () {
       // current value of slider is current grade level
-      var currentYear = this.value;
-      $("#year p span").html(currentYear)
+      var currentYear = this.value; // value is 1 to 10
+      $("#year p span").html(+currentYear + 2009 )
       // resize the circles with updated grade level
       resizeCircles(birthsLayer, deathsLayer, currentYear);
     });
@@ -271,7 +228,7 @@
   function drawLegend(data) {
     // create Leaflet control for the legend
     const legendControl = L.control({
-      position: "topright",
+      position: "topright"
     });
 
     // when the control is added to the map
