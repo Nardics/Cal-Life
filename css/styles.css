@@ -17,9 +17,8 @@ h1 {
 .legend-small {
   border-radius: 50%;
   border-color:#182E59;
-  border-width: 1.5px;
-  
-}
+  border-width: 1.75px;
+  }
 
 hr.small,
 hr.large {
@@ -29,7 +28,9 @@ hr.large {
   left: 55px;
   border: 1px dashed #ccc; /* overwrite assembly.css rule */
   margin-top: 8px; /* overwrite assembly.css rule */
-}
+  }
+
+ 
 
 #info {
   z-index: 1000;
@@ -45,4 +46,19 @@ hr.large {
 
 body {
   font-family: 'Kadwa', serif;
-} /* This overrides the Assembly.css for the body font rule
+} /* This overrides the Assembly.css for the body font rule*/
+li {
+  list-style-type: disc;
+}
+.container {
+  left: 10px;
+  width: 280px;
+  top: 190px;
+  padding: 0px 0px 8px 5px;
+  background:#C1CBD9;
+  opacity: .9;
+  border: 2px soli#0D2340;
+  z-index: 5;
+  position: fixed;
+  border-radius: 7px;
+}
