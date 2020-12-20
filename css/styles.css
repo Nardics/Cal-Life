@@ -25,7 +25,8 @@ h2{
   }
 
   #legend{
-    width: 350px;
+    width: 250px;
+    margin-right:20px ;
     
   }
 hr.small,
