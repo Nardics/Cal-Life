@@ -92,8 +92,8 @@
       const props = e.layer.feature.properties;
       // populate HTML elements with relevant info
       $("#info span").html(props.CITY);
-      $(".births span:first-child").html(`(year ${currentYear})`);
-      $(".deaths span:first-child").html(`(year ${currentYear})`);
+      $(".births span:first-child").html(`(year ${+currentYear + 2009})`);
+      $(".deaths span:first-child").html(`(year ${+currentYear + 2009})`);
       $(".births span:last-child").html(
         Number(props[`B${currentYear}`]).toLocaleString()
       );
@@ -116,7 +116,7 @@
       $(".birthsspark").sparkline(birthsValues, {
         width: "200px",
         height: "30px",
-        lineColor: "#D96D02",
+        lineColor: "#A6215F",
         fillColor: " #BF6B7B ",
         spotRadius: 0,
         lineWidth: 2,
@@ -124,7 +124,7 @@
       $(".deathsspark").sparkline(deathsValues, {
         width: "200px",
         height: "30px",
-        lineColor: "#6E77B0",
+        lineColor: "#0D2340",
         fillColor: "#1F3D74",
         spotRadius: 0,
         lineWidth: 2,
