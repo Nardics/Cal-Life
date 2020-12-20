@@ -62,7 +62,7 @@
   } // end drawMap() here
   function calcRadius(val) {
     const radius = Math.sqrt(val / Math.PI);
-    return radius * 0.80; // adjust .8 as a scale factor
+    return radius * 0.50; // adjust .5 as a scale factor
   }
   function resizeCircles(birthsLayer, deathsLayer, currentYear) {
     birthsLayer.eachLayer(function (layer) {
@@ -165,7 +165,7 @@
     // sequenceUI function body
     // create Leaflet control for the slider
     const sliderControl = L.control({
-      position: "bottomleft",
+      position: "bottomright",
     });
     sliderControl.onAdd = function (map) {
       const controls = L.DomUtil.get("slider");
@@ -175,7 +175,7 @@
     };
  //   sliderControl.addTo(map);
     const labelControl = L.control({
-      position: "bottomleft",
+      position: "bottomright",
     });
     labelControl.onAdd = function (map) {
       const controls = L.DomUtil.get("year");
@@ -244,7 +244,7 @@
       return legend;
     };
 
-    legendControl.addTo(map);
+   legendControl.addTo(map);
     // add legend to the map.
 
     // Using JavaScript forEach method to iterate through each feature of GeoJSON data
@@ -271,60 +271,59 @@
     });
     // verify your results!
     console.log(dataValues);
+// sort our array
+const sortedValues = dataValues.sort(function (a, b) {
+  return b - a;
+});
 
-    // sort our array
-    const sortedValues = dataValues.sort(function (a, b) {
-      return b - a;
-    });
+// round the highest number and use as our large circle diameter
+const maxValue = Math.round(sortedValues[0] / 1000) * 1000;
 
-    // round the highest number and use as our large circle diameter
-    const maxValue = Math.round(sortedValues[0] / 1000) * 1000;
+// calc the diameters
+const largeDiameter = calcRadius(maxValue) ,
+  smallDiameter = largeDiameter / 2;
 
-    // calc the diameters
-    const largeDiameter = calcRadius(maxValue) * 2,
-      smallDiameter = largeDiameter / 2;
+// select our circles container and set the height
+$(".legend-circles").css("height", largeDiameter.toFixed());
 
-    // select our circles container and set the height
-    $(".legend-circles").css("height", largeDiameter.toFixed());
+// set width and height for large circle
+$(".legend-large").css({
+  width: largeDiameter.toFixed(),
+  height: largeDiameter.toFixed(),
+});
+// set width and height for small circle and position
+$(".legend-small").css({
+  width: smallDiameter.toFixed(),
+  height: smallDiameter.toFixed(),
+  top: largeDiameter - smallDiameter,
+  left: smallDiameter / 2,
+});
 
-    // set width and height for large circle
-    $(".legend-large").css({
-      width: largeDiameter.toFixed(),
-      height: largeDiameter.toFixed(),
-    });
-    // set width and height for small circle and position
-    $(".legend-small").css({
-      width: smallDiameter.toFixed(),
-      height: smallDiameter.toFixed(),
-      top: largeDiameter - smallDiameter,
-      left: smallDiameter / 2,
-    });
+// label the max and median value
+$(".legend-large-label").html(maxValue.toLocaleString());
+$(".legend-small-label").html((maxValue / 2).toLocaleString());
 
-    // label the max and median value
-    $(".legend-large-label").html(maxValue.toLocaleString());
-    $(".legend-small-label").html((maxValue / 2).toLocaleString());
+// adjust the position of the large based on size of circle
+$(".legend-large-label").css({
+  top: -11,
+  left: largeDiameter + 30,
+});
 
-    // adjust the position of the large based on size of circle
-    $(".legend-large-label").css({
-      top: -11,
-      left: largeDiameter + 30,
-    });
+// adjust the position of the large based on size of circle
+$(".legend-small-label").css({
+  top: smallDiameter - 11,
+  left: largeDiameter + 30,
+});
 
-    // adjust the position of the large based on size of circle
-    $(".legend-small-label").css({
-      top: smallDiameter - 11,
-      left: largeDiameter + 30,
-    });
+// insert a couple hr elements and use to connect value label to top of each circle
+$("<hr class='large'>").insertBefore(".legend-large-label");
+$("<hr class='small'>")
+  .insertBefore(".legend-small-label")
+  .css("top", largeDiameter - smallDiameter - 8);
+}
 
-    // insert a couple hr elements and use to connect value label to top of each circle
-    $("<hr class='large'>").insertBefore(".legend-large-label");
-    $("<hr class='small'>")
-      .insertBefore(".legend-small-label")
-      .css("top", largeDiameter - smallDiameter - 8);
-  }
-
-  function updateYear(currentYear) {
-    //select the slider's input and listen for change
-    $("#year span").html(currentYear);
-  } // end updateGrade()
+function updateYear(currentYear) {
+//select the slider's input and listen for change
+$("#year span").html(currentYear);
+} // end updateGrade()
 })();
