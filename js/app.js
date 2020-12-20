@@ -1,18 +1,19 @@
 (function () {
   const map = L.map("map", {
     zoomSnap: 0.1,
-    center: [37.7783, -110.5],
-    zoom: 8,
+    center: [37.3, -120.0],
+    zoom: 7.1,
     minZoom: 6,
     maxZoom: 12,
     maxBounds: L.latLngBounds([16.0, -125.5], [45.5, -105.0]),
   });
 
-  
   const accessToken =
     "pk.eyJ1IjoibWFwbmFyZCIsImEiOiJja2I3dzU3d2YwOXV3Mnlta25mYWZwd2h1In0.DwLv1HMQTFGFP7fy_2ywLA";
   const yourName = "mapnard";
   const yourMap = "ckha1a34j34dc19n6k07lsdei";
+
+
   // request a mapbox raster tile layer and add to map
   L.tileLayer(
     `https://api.mapbox.com/styles/v1/${yourName}/${yourMap}/tiles/256/{z}/{x}/{y}?access_token=${accessToken}`,
@@ -22,6 +23,7 @@
       maxZoom: 18,
     }
   ).addTo(map);
+
   // call vital statistics data
   omnivore
     .csv("data/ca_counties.csv")
@@ -33,6 +35,7 @@
     .on("error", function (e) {
       console.log(e.error[0].message);
     });
+
   function drawMap(data) {
     // console.log(data);
     const options = {
@@ -44,6 +47,7 @@
         });
       },
     };
+
     // create 2 separate layers from GeoJSON data
     const birthsLayer = L.geoJson(data, options).addTo(map),
       deathsLayer = L.geoJson(data, options).addTo(map);
@@ -58,6 +62,7 @@
     deathsLayer.setStyle({
       color: "#1F3D74",
     });
+
     // calling resizeCircles function
     resizeCircles(birthsLayer, deathsLayer, 1);
     sequenceUI(birthsLayer, deathsLayer);
@@ -108,7 +113,7 @@
       );
       // raise opacity level as visual affordance
       e.layer.setStyle({
-        fillOpacity: 0.6,
+        fillOpacity: 0.5,
       });
       // empty arrays for births and deaths values
       const birthsValues = [],
@@ -118,6 +123,7 @@
         birthsValues.push(props["B" + i]);
         deathsValues.push(props["D" + i]);
       }
+
       // Using jQuery to select elements and invoke .sparkline() method
       $(".birthsspark").sparkline(birthsValues, {
         width: "200px",
@@ -136,6 +142,7 @@
         lineWidth: 2,
       });
     });
+
     // hide the info panel when mousing off layergroup and remove affordance opacity
     deathsLayer.on("mouseout", function (e) {
       // hide the info panel
@@ -145,6 +152,7 @@
         fillOpacity: 0,
       });
     });
+
     // when the mouse moves on the document
     $(document).mousemove(function (e) {
       // first offset from the mouse position of the info window
@@ -166,6 +174,7 @@
       }
     });
   }
+
   // new function to facilitate comparison of parameters-births and deaths
   function sequenceUI(birthsLayer, deathsLayer) {
     // sequenceUI function body
@@ -179,6 +188,7 @@
       L.DomEvent.disableClickPropagation(controls);
       return controls;
     };
+
     //   sliderControl.addTo(map);
     const labelControl = L.control({
       position: "bottomright",
@@ -293,6 +303,7 @@
       width: largeDiameter.toFixed(),
       height: largeDiameter.toFixed(),
     });
+
     // set width and height for small circle and position
     $(".legend-small").css({
       width: smallDiameter.toFixed(),
