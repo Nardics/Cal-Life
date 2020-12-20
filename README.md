@@ -1,4 +1,8 @@
-#  Objectives - Cal-Life
+
+# Cal-Life
+
+
+##  Objectives 
 This project looks at the number of births and deaths in forty-five of the fifty-eight California counties. The period spans 2010-2019. Data scope was limited to incorporated places with a population of 50,000 or more.
 
 ## Target Audience
