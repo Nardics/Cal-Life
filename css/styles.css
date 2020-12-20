@@ -4,8 +4,12 @@
 }
 
 h1 {
-  color:'#004A8B';
+  color:#182E59;
   font-size: 2em;
+}
+h2{
+  color:#182E59;
+  font-style: inherit;
 }
 /* display none for layout but be careful of license restrictions */
 .mapbox-logo,
@@ -46,19 +50,9 @@ hr.large {
 
 body {
   font-family: 'Kadwa', serif;
+ 
 } /* This overrides the Assembly.css for the body font rule*/
+
 li {
   list-style-type: disc;
-}
-.container {
-  left: 10px;
-  width: 280px;
-  top: 190px;
-  padding: 0px 0px 8px 5px;
-  background:#C1CBD9;
-  opacity: .9;
-  border: 2px soli#0D2340;
-  z-index: 5;
-  position: fixed;
-  border-radius: 7px;
 }
