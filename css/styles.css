@@ -61,3 +61,32 @@ body {
 li {
   list-style-type: disc;
 }
+
+@media screen and (max-height: 400px) {
+
+  #about p,
+  #about h2 {
+    font-size: .6em;
+  }
+
+  h1 {
+    font-size: 1.2em;
+  }
+
+  #about h2 {
+    font-size: 1em;
+  }
+
+  .leaflet-popup-content {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.9em;
+  }
+}
+
+/* Don't display info block when window is very small */
+@media screen and (max-height: 200px) {
+
+  #about {
+    display: none;
+  }
+}
