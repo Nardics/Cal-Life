@@ -341,17 +341,4 @@
   } // end updateGrade()
 })();
 
-// Testing touch response setup ???? 
-function touchUp() {
-  const x = document.getElementById('birthValues');
-  const y = document.getElementById('deathValues');
-  if (clicked) {
-      y.style.background = '#09E0A0';
-      x.style.height = '0px';
-  } else {
-      y.style.background = '#6E0EE3'
-      x.style.height = '33vh';
-  }
-  clicked = !clicked
-}
 
