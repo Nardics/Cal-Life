@@ -102,7 +102,7 @@
       const props = e.layer.feature.properties;
 
       // populate HTML elements with relevant info
-      $("#info span").html(`City of  ${props.CITY}<br>${props.NAME}`);
+      $("#info span").html(`City of  ${props.CITY}<br><b>${props.NAME}</b>`);
       $(".births span:first-child").html(`(year ${+currentYear + 2009})`);
       $(".deaths span:first-child").html(`(year ${+currentYear + 2009})`);
       $(".births span:last-child").html(
@@ -342,16 +342,3 @@
 })();
 
 
-//add click
-function myInfo() {
-  const x = document.getElementById('footer');
-  const y = document.getElementById('info-button');
-  if (clicked) {
-      y.style.background = '#09E0A0';
-      x.style.height = '0px';
-  } else {
-      y.style.background = '#6E0EE3'
-      x.style.height = '33vh';
-  }
-  clicked = !clicked
-}
