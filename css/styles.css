@@ -82,11 +82,4 @@ li {
     font-size: 0.9em;
   }
 }
-/*
-/* Don't display info block when window is very small */
-@media screen and (max-height: 200px) {
 
-  #about {
-    display: none;
-  }
-}
