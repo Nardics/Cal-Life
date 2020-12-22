@@ -91,3 +91,9 @@ li {
   }
 }
 */
+/* include touchscreen interface*/
+@media(hover: hover) and (pointer: fine) {
+  nav a:hover {
+      background: yellow;
+  }
+}
