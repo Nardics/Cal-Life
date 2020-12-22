@@ -340,3 +340,18 @@
     $("#year span").html(currentYear);
   } // end updateGrade()
 })();
+
+
+//add click
+function myInfo() {
+  const x = document.getElementById('footer');
+  const y = document.getElementById('info-button');
+  if (clicked) {
+      y.style.background = '#09E0A0';
+      x.style.height = '0px';
+  } else {
+      y.style.background = '#6E0EE3'
+      x.style.height = '33vh';
+  }
+  clicked = !clicked
+}
