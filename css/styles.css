@@ -91,6 +91,10 @@ li {
   }
 }
 */
+
+body.nontouch nav a:hover {
+  background: yellow;
+}
 /* include touchscreen interface*/
 @media(hover: hover) and (pointer: fine) {
   nav a:hover {
