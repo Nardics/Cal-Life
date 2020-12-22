@@ -5,7 +5,7 @@
     zoom: 7.1,
     minZoom: 6,
     maxZoom: 12,
-    maxBounds: L.latLngBounds([16.0, -125.5], [45.5, -105.0]),
+    // maxBounds: L.latLngBounds([16.0, -125.5], [45.5, -105.0]),
   });
 
   const accessToken =
@@ -94,13 +94,14 @@
     // select the element and reference with variable
     // and hide it from view initially
     const info = $("#info").hide();
-    // since deathsLayer is on top, use to detect mouseover events
-    deathsLayer.on("mouseover", function (e) {
+
+
+    showContent = function (e) {
       // remove the none class to display and show
       info.show();
       // access properties of target layer
       const props = e.layer.feature.properties;
-
+  
       // populate HTML elements with relevant info
       $("#info span").html(`City of  ${props.CITY}<br><b>${props.NAME}</b>`);
       $(".births span:first-child").html(`(year ${+currentYear + 2009})`);
@@ -123,7 +124,7 @@
         birthsValues.push(props["B" + i]);
         deathsValues.push(props["D" + i]);
       }
-
+  
       // Using jQuery to select elements and invoke .sparkline() method
       $(".birthsspark").sparkline(birthsValues, {
         width: "200px",
@@ -141,7 +142,32 @@
         spotRadius: 0,
         lineWidth: 2,
       });
-    });
+    }
+
+    if (L.Browser.mobile) {
+    
+      deathsLayer.on("click", function(e) {
+        showContent(e)
+        console.log(e)
+        info.css({
+          left: e.containerPoint.x, // see if you can flip them if they crash out of view
+          top: e.containerPoint.y,
+        });
+        setTimeout(function() {
+           // hide the info panel
+          info.hide();
+          // reset the layer style
+          e.layer.setStyle({
+            fillOpacity: 0,
+          });
+        }, 2500);
+      });
+
+      } else {
+      // since deathsLayer is on top, use to detect mouseover events
+      deathsLayer.on("mouseover", function(e) {
+        showContent (e)
+    } );
 
     // hide the info panel when mousing off layergroup and remove affordance opacity
     deathsLayer.on("mouseout", function (e) {
@@ -173,7 +199,12 @@
         });
       }
     });
+    };
+
+    
   }
+
+  
 
   // new function to facilitate comparison of parameters-births and deaths
   function sequenceUI(birthsLayer, deathsLayer) {
