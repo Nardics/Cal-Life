@@ -160,13 +160,14 @@
           e.layer.setStyle({
             fillOpacity: 0,
           });
-        }, 2500);
+        }, 3500);
       });
 
       // update content position for mobile here
         // when the document is clicked
+
     $(document).click(function (e) {
-      // first offset from the mouse position of the info window
+      // first offset from the click position of the info window
       info.css({
         left: e.pageX + 6,
         top: e.pageY - info.height() - 25,
@@ -184,7 +185,7 @@
         });
       }
     });
-// end on click reposition here
+// end click reposition here
 
 
       } else {
